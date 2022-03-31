@@ -30,31 +30,31 @@ export default class Students extends Component {
 
     componentDidMount() {
         // const url = 'https://jsonplaceholder.typicode.com/users'
-        const url = `https://api.wonde.com/v1.0/schools/${school_id}/students?include=classes`
+        // const url = `https://api.wonde.com/v1.0/schools/${school_id}/students?include=classes`
         const url2 = `https://api.wonde.com/v1.0/schools/${school_id}/employees?include=classes`
         const url3 = `https://api.wonde.com/v1.0/schools/${school_id}/classes?include=students`
 
 
 //STUDENTS
-        axios.get(url, {
-            headers: {
-                'Authorization': `Bearer ${token}` 
-              }
-        })
-          .then(res => {
-            // let students = res.data;
-            this.setState({ students: res.data.data });
-            console.log(this.state.students)
-            console.log(res.data.data[0].classes.data[0].name)
-            // console.log(students.data)
-            // students = students.data
-            // console.log(students.data[1].initials)
-            // console.log(students.data[1].forename)
-            // this.setState({ students })
-          })
-          .catch((error) => {
-              console.log(error)
-          })
+        // axios.get(url, {
+        //     headers: {
+        //         'Authorization': `Bearer ${token}` 
+        //       }
+        // })
+        //   .then(res => {
+        //     // let students = res.data;
+        //     this.setState({ students: res.data.data });
+        //     console.log(this.state.students)
+        //     console.log(res.data.data[0].classes.data[0].name)
+        //     // console.log(students.data)
+        //     // students = students.data
+        //     // console.log(students.data[1].initials)
+        //     // console.log(students.data[1].forename)
+        //     // this.setState({ students })
+        //   })
+        //   .catch((error) => {
+        //       console.log(error)
+        //   })
 
 
 //EMPLOYEES FETCH
@@ -100,23 +100,23 @@ export default class Students extends Component {
 
 
   render() {
-      const { students } = this.state
-      const studentList = students.length ? (
+    //   const { students } = this.state
+    //   const studentList = students.length ? (
 
-            students.map(student => {
-                return (
-                    <ul key={student.id}>
-                        <li>{student.forename} {student.surname}</li>
-                        <li>{student.id}</li>
+    //         students.map(student => {
+    //             return (
+    //                 <ul key={student.id}>
+    //                     <li>{student.forename} {student.surname}</li>
+    //                     <li>{student.id}</li>
 
-                    </ul>
+    //                 </ul>
 
-                )
+    //             )
 
-            })
-        ) : (
-            <div>Loading...</div>
-        ) 
+    //         })
+    //     ) : (
+    //         <div>Loading...</div>
+    //     ) 
 
         const { employees, employeesClasses } = this.state
         const employeeList = employees.length ? (
@@ -136,45 +136,45 @@ export default class Students extends Component {
         ) : (
             <div>Loading...</div>
         )
-        const employeeClassesList = employeesClasses.map(employeeClass => {
-            return (
-                <div key={employeeClass}>{employeeClass}</div>
-            )
-        })
+        // const employeeClassesList = employeesClasses.map(employeeClass => {
+        //     return (
+        //         <div key={employeeClass}>{employeeClass}</div>
+        //     )
+        // })
 
 
 
 
-        const { classesE } = this.state
-        const classList = classesE.length ? (
-            classesE.map(classE => {
-                return (
-                    <ul key={ classE.id }>
-                        <li>{ classE.name }</li>
-                        <li>{ classE.id }</li>
-                        {/* <li>{ classesE[1].students.data[0].forename } { classesE[1].students.data[0].surname }</li> */}
-                    </ul>
+        // const { classesE } = this.state
+        // const classList = classesE.length ? (
+        //     classesE.map(classE => {
+        //         return (
+        //             <ul key={ classE.id }>
+        //                 <li>{ classE.name }</li>
+        //                 <li>{ classE.id }</li>
+        //                 <li>{ classesE[1].students.data[0].forename } { classesE[1].students.data[0].surname }</li>
+        //             </ul>
                     
-                )
-            })
-        ) : (
-            <div>Loading...</div>
-        )
+        //         )
+        //     })
+        // ) : (
+        //     <div>Loading...</div>
+        // )
       return (
     <div className='data'>
     <div>
-    <h2>Students</h2>
-       {studentList}
+    {/* <h2>Students</h2> */}
+       {/* {studentList} */}
 
     </div>
     <div>
     <h2>Employees</h2>
        {employeeList}
-       {employeeClassesList}
+       {/* {employeeClassesList} */}
     </div> 
     <div>
-    <h2>Classes</h2>
-       {classList}
+    {/* <h2>Classes</h2> */}
+       {/* {classList} */}
     </div>
             {/* <ul>
                 {
