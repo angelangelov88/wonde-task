@@ -20,6 +20,24 @@ const class_ids = [
 
 const class_id = 'A575444512'
 
+// const openClasses   = (e, employee_id) => {
+//     axios.get('https://api.wonde.com/v1.0/schools/A1930499544/employees/A1796016840?include=classes', {
+//         headers: {
+//             'Authorization': `Bearer ${token}` 
+//           }
+//     })
+//       .then(res => {
+//             res = res.data
+//             console.log(res.data.classes.data[0].name)
+//             console.log(employee_id)
+            
+//       })
+//       .catch((error) => {
+//           console.log(error)
+//       })
+//   }
+
+
 export default class Students extends Component {
     state = {
         students: [],
@@ -27,6 +45,7 @@ export default class Students extends Component {
         employeesClasses: [],
         classesE: [],
     }
+
 
     componentDidMount() {
         // const url = 'https://jsonplaceholder.typicode.com/users'
@@ -67,7 +86,7 @@ export default class Students extends Component {
             // let students = res.data;
             this.setState({ 
                 employees: res.data.data, 
-                // employeesClasses: res.data.meta.includes
+                employeesClasses: res.data.meta.includes
             });
             
             console.log(this.state.employees)
@@ -78,26 +97,27 @@ export default class Students extends Component {
               console.log(error)
           })
 
-
+        
 
 //CLASSES FETCH
-          axios.get(url3, {
-            headers: {
-                'Authorization': `Bearer ${token}` 
-              }
-        })
-          .then(res => {
-            // let students = res.data;
-            this.setState({ classesE: res.data.data });
-            console.log(this.state.classesE)
-            console.log(res.data.data[1].students.data[0].forename)
-          })
-          .catch((error) => {
-              console.log(error)
-          })
+const axiosStudents = () => {
+    axios.get(url3, {
+        headers: {
+            'Authorization': `Bearer ${token}` 
+          }
+    })
+      .then(res => {
+        // let students = res.data;
+        this.setState({ classesE: res.data.data });
+        console.log(this.state.classesE)
+        console.log(res.data.data[1].students.data[0].forename)
+      })
+      .catch((error) => {
+          console.log(error)
+      })
 
-      }
-
+}
+    }
 
   render() {
     //   const { students } = this.state
@@ -123,16 +143,22 @@ export default class Students extends Component {
             employees.map(employee => {
                 return (
                     <ul key={employee.id}>
-                        <li>{employee.forename} {employee.surname}</li>
-                        {/* <li>{employee.id}</li> */}
-                        {/* <li>{ employees[1].classes.data[0].name }</li> */}
+                        <li className="link employee">{employee.forename} {employee.surname}</li>
+
+            {employee.classes.data.length ? (
+                <li>{ 
+                    employee.classes.data.map((tclass) => {
+                        return (
+                        <p key={tclass.id} className="link">{tclass.name}</p>
+
+                        )
+                    })
+                }</li>
+                ) 
+                :('')}
                     </ul>
-
                 )
-            })
-
-
-            
+            })            
         ) : (
             <div>Loading...</div>
         )

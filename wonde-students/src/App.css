@@ -1,6 +1,21 @@
 .data {
-  display: flex;
+  /* display: flex; */
   
+}
+
+.link:hover {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+
+li {
+  list-style-type: none;
+}
+
+.employee {
+  font-size: 18px;
+  font-weight: 600;
 }
 
 /* .App {
