@@ -1,21 +1,37 @@
-.data {
-  /* display: flex; */
+/* .data {
+  display: flex;
   
-}
+} */
 
-.link:hover {
+/* .link:hover {
   cursor: pointer;
   color: blue;
   text-decoration: underline;
-}
-
-li {
-  list-style-type: none;
-}
+} */
 
 .employee {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.classes {
   font-size: 18px;
   font-weight: 600;
+
+}
+
+.students {
+  font-size: 16px;
+  /* font-weight: 100; */
+
+}
+
+#students-data {
+  position: fixed;
+  top: 100px;
+  left: 250px;
+  height: 100vh;
+  overflow: auto;
 }
 
 /* .App {

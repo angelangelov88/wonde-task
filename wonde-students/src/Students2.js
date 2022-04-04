@@ -24,22 +24,24 @@ const class_id = 'A575444512'
 
 function Students() {
 
-    // const [students, setStudents] = useState({})
     const [classId, setClassId] = useState(null)
     const [employees, setEmployees] = useState({})
+    const [students, setStudents] = useState({})
     // const [employeesClasses, setEmployeesClasses] = useState({})
     const [classesE, setClassesE] = useState({})
+    const [fullName, setFullName] = useState({})
+
 
 
     useEffect(() =>  {
         getEmployees()
-        getStudents()
+        // getStudents()
     }, [])
-        // const url = 'https://jsonplaceholder.typicode.com/users'
-        // const url = `https://api.wonde.com/v1.0/schools/${school_id}/students?include=classes`
-        const url2 = `https://api.wonde.com/v1.0/schools/${school_id}/employees?include=classes`
-        const url3 = `https://api.wonde.com/v1.0/schools/${school_id}/classes?include=students`
+        const url2 = `https://api.wonde.com/v1.0/schools/${school_id}/employees?include=classes&?per_page=500`
+        const url3 = `https://api.wonde.com/v1.0/schools/${school_id}/classes?include=students&?per_page=500`
 
+        
+        
 
 //EMPLOYEES FETCH
 const getEmployees = () => {
@@ -52,9 +54,7 @@ const getEmployees = () => {
         // let students = res.data;
         setEmployees(res.data.data)
         // setEmployeesClasses(res.data.meta.includes)
-        console.log(employees)
-
-
+        // console.log(employees)
         // console.log(res.data.data[1].classes.data[0].name)
       })
       .catch((error) => {
@@ -63,35 +63,87 @@ const getEmployees = () => {
 
 }    
 
-//CLASSES FETCH
-const getStudents = () => {
-    axios.get(url3, {
+//STUDENTS FETCH
+// const getStudents = () => {
+//     axios.get(url3, {
+//         headers: {
+//             'Authorization': `Bearer ${token}` 
+//           }
+//     })
+//       .then(res => {
+//         // setStudents(res.data.data)
+//         setClassesE(res.data.data)
+//         // console.log(students)
+//         // console.log(students[0].classes.data)
+//         // console.log(classesE)
+//         // console.log(classesE[0].students.data)
+//     })
+//       .catch((error) => {
+//           console.log(error)
+//       })
+//     }
+
+//STUDENTS FETCH per CLASS ID
+
+let matches = []
+const showStudents = async (classIdIs) => {
+    const angelClass = classIdIs
+    const response = axios.get(`https://api.wonde.com/v1.0/schools/${school_id}/classes/${angelClass}?include=students`, {
         headers: {
             'Authorization': `Bearer ${token}` 
           }
     })
       .then(res => {
-        // let students = res.data;
-        setClassesE(res.data.data)
+        setStudents(res.data.data.students.data)
+    // console.log(students)
+     // console.log(students[0].classes.data)
+        fullNameFunction()
 
-        // console.log(classesE)
-        // console.log(res.data.data[1].students.data[0].forename)
-      })
+    })
       .catch((error) => {
           console.log(error)
       })
-    }
 
-// let matches = []
-// const showStudents = (classesE, classIdIs) => {
-//     for(let i=0; i<classesE.length; i++) {
-//         if(classesE.data[i].students.data === classIdIs.id) {
-//             matches.push(classesE.data[i].classesE.data)
-//             setClassesE()
-//         }
-//     }
-//     console.log(classesE)
-//   }
+      let fullNameArray = []
+      let fullNameString = []
+      const fullNameFunction = () => {
+        for(let i=0; i<students.length; i++) {
+            fullNameArray.push(students[i].forename + ' ' + students[i].surname + '<br>')
+            fullNameString = new String(fullNameArray)
+            fullNameString = fullNameString.split(',').join('')
+    }
+    // console.log(fullNameString)
+
+    const studentsList = document.getElementById('students-data')
+    studentsList.innerHTML = fullNameString
+
+    // studentsList.replaceWith(studentsList)  
+
+}
+}
+    
+      
+        // for(let i=0; i<classesE.length; i++) {
+        //     if(classesE[i].id == classIdIs) {
+        //         // matches.push(classesE[i].name)
+        //         // setClassesE(matches)
+        //         // console.log(matches)
+        //         // console.log(classesE)
+        //         console.log('Match!')
+        //         for (let s=0; s<classesE[i].students.data.length; s++) {
+        //             matches.push(classesE[i].students.data[s].forename) 
+        //             // console.log(matches)
+        //             console.log('match2')
+
+                    
+        //         }
+        //     } else {
+        //         console.log('No matched students')
+        //     }
+        // }    
+
+    // console.log(classesE)
+  
 
     
 if (employees.length > 0) {
@@ -99,15 +151,21 @@ if (employees.length > 0) {
         employees.map(employee => {
             // console.log(employee.classes.data)
             return(
-                <div className='data'key={employee.id}>
+                <div className='data' key={employee.id}>
                     <p className="link employee">{employee.forename} {employee.surname}</p>
                     {employee.classes.data.map(tclass => {
                         return(
-                            <p 
-                            key={tclass.id} 
-                            className="link" 
-                            // onClick={() => showStudents(tclass.id)}
-                            >{tclass.name}</p>
+                            <div 
+                                key={tclass.id} 
+                                className="link classes" 
+                            >{tclass.name}
+                                <button onClick={ () => showStudents(tclass.id) }>Show Students</button>                          
+                                <div className="students">
+                                    <div id="students-data"></div>
+                                </div>
+                                
+                            </div>
+                            
                         )
                     })
                     } 
@@ -118,6 +176,9 @@ if (employees.length > 0) {
 } else {
     return(<div>Loading...</div>)
 }
+
+
 }
+
 
 export default Students;
