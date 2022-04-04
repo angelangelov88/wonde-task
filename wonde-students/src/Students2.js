@@ -3,24 +3,8 @@ import axios from 'axios'
 import env from 'react-dotenv'
 import { useState,useEffect } from 'react'
 
-
 const token = process.env.REACT_APP_TOKEN
 const school_id = process.env.REACT_APP_SCHOOL_ID
-
-const teacher_ids = [
-    'A1375078684',
-    'A1624134916',
-    'A1796016840'
-]
-const teacher_id = "A1976397528"
-const class_ids = [
-    'A575444512',
-    'A1253639300',
-    'A344762973'
-]
-
-const class_id = 'A575444512'
-
 
 function Students() {
 
@@ -31,14 +15,12 @@ function Students() {
     const [classesE, setClassesE] = useState({})
     const [fullName, setFullName] = useState({})
 
-
-
     useEffect(() =>  {
         getEmployees()
         // getStudents()
     }, [])
-        const url2 = `https://api.wonde.com/v1.0/schools/${school_id}/employees?include=classes&?per_page=500`
-        const url3 = `https://api.wonde.com/v1.0/schools/${school_id}/classes?include=students&?per_page=500`
+        const url2 = `https://api.wonde.com/v1.0/schools/${school_id}/employees?include=classes&per_page=100`
+        // const url3 = `https://api.wonde.com/v1.0/schools/${school_id}/classes?include=students&?per_page=500`
 
         
         
@@ -113,12 +95,8 @@ const showStudents = async (classIdIs) => {
             fullNameString = fullNameString.split(',').join('')
     }
     // console.log(fullNameString)
-
     const studentsList = document.getElementById('students-data')
     studentsList.innerHTML = fullNameString
-
-    // studentsList.replaceWith(studentsList)  
-
 }
 }
     
@@ -162,10 +140,8 @@ if (employees.length > 0) {
                                 <button onClick={ () => showStudents(tclass.id) }>Show Students</button>                          
                                 <div className="students">
                                     <div id="students-data"></div>
-                                </div>
-                                
-                            </div>
-                            
+                                </div>     
+                            </div>  
                         )
                     })
                     } 

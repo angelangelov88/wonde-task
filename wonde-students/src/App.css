@@ -29,8 +29,8 @@
 #students-data {
   position: fixed;
   top: 100px;
+  bottom: 10rem;
   left: 250px;
-  height: 100vh;
   overflow: auto;
 }
 
