@@ -1,15 +1,20 @@
-/* .data {
-  display: flex;
-  
-} */
+.data {
+  max-width: 160px;  
+}
 
-/* .link:hover {
+.link:hover {
   cursor: pointer;
   color: blue;
   text-decoration: underline;
-} */
+}
+
+.unlink:hover {
+  color: black;
+  cursor:auto;
+}
 
 .employee {
+  margin-top: 20px;
   font-size: 20px;
   font-weight: 600;
 }

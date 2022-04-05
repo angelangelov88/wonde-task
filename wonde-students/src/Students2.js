@@ -8,26 +8,27 @@ const school_id = process.env.REACT_APP_SCHOOL_ID
 
 function Students() {
 
-    const [classId, setClassId] = useState(null)
+//I used useState hook to set the values of the variables I get from the API
+    // const [classId, setClassId] = useState(null)
     const [employees, setEmployees] = useState({})
     const [students, setStudents] = useState({})
     // const [employeesClasses, setEmployeesClasses] = useState({})
-    const [classesE, setClassesE] = useState({})
-    const [fullName, setFullName] = useState({})
+    // const [classesE, setClassesE] = useState({})
+    // const [fullName, setFullName] = useState({})
 
+//I used useEffect hook to make sure that the employees and classes are rendered on load
     useEffect(() =>  {
         getEmployees()
         // getStudents()
     }, [])
-        const url2 = `https://api.wonde.com/v1.0/schools/${school_id}/employees?include=classes&per_page=100`
-        // const url3 = `https://api.wonde.com/v1.0/schools/${school_id}/classes?include=students&?per_page=500`
 
-        
-        
+//These are the urls I used to fetch the API. I used include and per_page clauses to get the results I need
+        const url = `https://api.wonde.com/v1.0/schools/${school_id}/employees?include=classes&per_page=100`
+        // const url3 = `https://api.wonde.com/v1.0/schools/${school_id}/classes?include=students&?per_page=500`       
 
 //EMPLOYEES FETCH
 const getEmployees = () => {
-    axios.get(url2, {
+    axios.get(url, {
         headers: {
             'Authorization': `Bearer ${token}` 
           }
@@ -66,26 +67,25 @@ const getEmployees = () => {
 //     }
 
 //STUDENTS FETCH per CLASS ID
-
-let matches = []
-const showStudents = async (classIdIs) => {
-    const angelClass = classIdIs
-    const response = axios.get(`https://api.wonde.com/v1.0/schools/${school_id}/classes/${angelClass}?include=students`, {
+const showStudents = (classIdIs) => {
+    const classId = classIdIs
+    axios.get(`https://api.wonde.com/v1.0/schools/${school_id}/classes/${classId}?include=students`, {
         headers: {
             'Authorization': `Bearer ${token}` 
           }
     })
       .then(res => {
         setStudents(res.data.data.students.data)
-    // console.log(students)
+        console.log(students)
      // console.log(students[0].classes.data)
         fullNameFunction()
-
     })
       .catch((error) => {
           console.log(error)
       })
 
+
+//This is a function which loops through the students state and returns each student. After that I push all students to an array which is tranformed to a string and rendered with Vanilla JS
       let fullNameArray = []
       let fullNameString = []
       const fullNameFunction = () => {
@@ -99,8 +99,7 @@ const showStudents = async (classIdIs) => {
     studentsList.innerHTML = fullNameString
 }
 }
-    
-      
+
         // for(let i=0; i<classesE.length; i++) {
         //     if(classesE[i].id == classIdIs) {
         //         // matches.push(classesE[i].name)
@@ -122,39 +121,35 @@ const showStudents = async (classIdIs) => {
 
     // console.log(classesE)
   
-
-    
+//JSX starts here
 if (employees.length > 0) {
     return (
         employees.map(employee => {
             // console.log(employee.classes.data)
             return(
-                <div className='data' key={employee.id}>
-                    <p className="link employee">{employee.forename} {employee.surname}</p>
-                    {employee.classes.data.map(tclass => {
-                        return(
-                            <div 
-                                key={tclass.id} 
-                                className="link classes" 
-                            >{tclass.name}
-                                <button onClick={ () => showStudents(tclass.id) }>Show Students</button>                          
-                                <div className="students">
-                                    <div id="students-data"></div>
-                                </div>     
-                            </div>  
-                        )
-                    })
-                    } 
-                </div>
+            <div className='data' key={employee.id}>
+                <div className="employee">{employee.forename} {employee.surname}</div>
+                {employee.classes.data.map(tclass => {
+                    return(
+                    <div 
+                        key={tclass.id} 
+                        onClick={ () => showStudents(tclass.id)}
+                        className="link classes" 
+                    >{tclass.name}
+                        <div className="students">
+                            <div id="students-data" className="unlink"></div>
+                        </div>     
+                    </div>  
+                    )
+                })
+                } 
+            </div>
             )  
         })
     )
 } else {
     return(<div>Loading...</div>)
 }
-
-
 }
-
 
 export default Students;
